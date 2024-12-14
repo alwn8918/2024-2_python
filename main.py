@@ -7,36 +7,40 @@ ALGORITHM_OPTIONS = ['Greedy', 'Dynamic Programming', 'Branch and Bound']
 # function
 def buildGUI():
     # knapsack 선택
-    knapsack_label = ttk.Label(win, text='Knapsack 선택')
-    knapsack_label.pack()
+    option_frame = ttk.Frame(win)
+    
+    knapsack_label = ttk.Label(option_frame, text='Knapsack 선택: ')
+    knapsack_label.grid(row=0, column=0)
 
     global knapsack_option
     knapsack_option = tk.IntVar(value=-1)
     for i in range(2):
-        knapsack_button = ttk.Radiobutton(win,
+        knapsack_button = ttk.Radiobutton(option_frame,
                                           text=KNAPSACK_OPTIONS[i],
                                           value=i,
                                           variable=knapsack_option,
                                           command=knapsack_button_handler)
-        knapsack_button.pack()
+        knapsack_button.grid(row=i, column=1, sticky='w')
 
     # 알고리즘 선택
-    algorithm_label = ttk.Label(win, text='알고리즘 선택')
-    algorithm_label.pack()
+    algorithm_label = ttk.Label(option_frame, text='알고리즘 선택: ')
+    algorithm_label.grid(row=3, column=0)
 
     global algorithm_buttons
     global algorithm_option
     algorithm_option = tk.IntVar(value=-1)
     algorithm_buttons = []
     for i in range(3):
-        algorithm_button = ttk.Radiobutton(win,
+        algorithm_button = ttk.Radiobutton(option_frame,
                                            text=ALGORITHM_OPTIONS[i],
                                            value=i,
                                            variable=algorithm_option,
                                            command=algorithm_button_handler,
                                            state=tk.DISABLED)
-        algorithm_button.pack()
+        algorithm_button.grid(row=i+3, column=1, sticky='w')
         algorithm_buttons.append(algorithm_button)
+
+    option_frame.pack(pady=5)
 
     # 배낭 용량
     knapsack_frame = ttk.Frame(win)
@@ -44,7 +48,7 @@ def buildGUI():
     capacity_label.grid(row=0, column=0)
 
     global capacity
-    capacity = tk.StringVar()
+    capacity = tk.IntVar()
     input_capacity = ttk.Entry(knapsack_frame, textvariable=capacity)
     input_capacity.grid(row=0, column=1, columnspan=2)
 
@@ -60,12 +64,12 @@ def buildGUI():
     number_button = ttk.Button(knapsack_frame, text='확인', command=number_button_handler)
     number_button.grid(row=1, column=2)
 
-    knapsack_frame.pack()
+    knapsack_frame.pack(pady=5)
 
     # 물건 정보
     global item_frame
     item_frame = ttk.Frame(win)
-    item_frame.pack()
+    item_frame.pack(pady=5)
 
     # 완료 버튼
     complete_button = ttk.Button(win, text='완료', command=complete_button_handler)
