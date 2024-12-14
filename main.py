@@ -38,6 +38,36 @@ def buildGUI():
         algorithm_button.pack()
         algorithm_buttons.append(algorithm_button)
 
+    # 배낭 용량
+    knapsack_frame = ttk.Frame(win)
+    capacity_label = ttk.Label(knapsack_frame, text='배낭 용량: ')
+    capacity_label.grid(row=0, column=0)
+
+    global capacity
+    capacity = tk.StringVar()
+    input_capacity = ttk.Entry(knapsack_frame, textvariable=capacity)
+    input_capacity.grid(row=0, column=1, columnspan=2)
+
+    # 물건 개수
+    number_label = ttk.Label(knapsack_frame, text='물건 개수: ')
+    number_label.grid(row=1, column=0)
+
+    global number
+    number = tk.IntVar()
+    input_number = ttk.Entry(knapsack_frame, textvariable=number, width=10)
+    input_number.grid(row=1, column=1)
+
+    number_button = ttk.Button(knapsack_frame, text='확인', command=number_button_handler)
+    number_button.grid(row=1, column=2)
+
+    knapsack_frame.pack()
+
+    # 물건 정보
+    global item_frame
+    item_frame = ttk.Frame(win)
+    item_frame.pack()
+
+    # 완료 버튼
     complete_button = ttk.Button(win, text='완료', command=complete_button_handler)
     complete_button.pack(side=tk.BOTTOM)
 
@@ -59,10 +89,44 @@ def complete_button_handler():
     print('Knapsack:', KNAPSACK_OPTIONS[knapsack_option.get()])
     print('Algorithm:', ALGORITHM_OPTIONS[algorithm_option.get()])
 
+def number_button_handler():
+    for widget in item_frame.winfo_children():
+        widget.destroy()
+
+    global items
+    items = []
+    for i in range(number.get()):
+        # 물건 이름
+        name_label = ttk.Label(item_frame, text=f'{i+1}. 이름')
+        name_label.grid(row=i, column=0)
+
+        global name
+        name = tk.StringVar()
+        input_name = ttk.Entry(item_frame, textvariable=name, width=10)
+        input_name.grid(row=i, column=1)
+
+        # 물건 값어치
+        profit_label = ttk.Label(item_frame, text='값어치')
+        profit_label.grid(row=i, column=2)
+
+        global profit
+        profit = tk.IntVar()
+        input_profit = ttk.Entry(item_frame, textvariable=profit, width=10)
+        input_profit.grid(row=i, column=3)
+
+        # 물건 무게
+        weight_label = ttk.Label(item_frame, text='무게')
+        weight_label.grid(row=i, column=4)
+
+        global weight
+        weight = tk.IntVar()
+        input_weight = ttk.Entry(item_frame, textvariable=weight, width=10)
+        input_weight.grid(row=i, column=5)
+
 # main program
 win = tk.Tk()
 win.title('Knapsack Program')
-win.geometry('300x200')
+win.geometry('500x400')
 buildGUI()
 
 win.mainloop()
