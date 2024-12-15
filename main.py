@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import subprocess
 
 KNAPSACK_OPTIONS = ['Fractional Knapsack', '0-1 Knapsack']
 ALGORITHM_OPTIONS = ['Greedy', 'Dynamic Programming', 'Branch and Bound']
@@ -90,8 +91,44 @@ def algorithm_button_handler():
     pass
 
 def complete_button_handler():
-    print('Knapsack:', KNAPSACK_OPTIONS[knapsack_option.get()])
-    print('Algorithm:', ALGORITHM_OPTIONS[algorithm_option.get()])
+    # Fractional + Greedy
+    if knapsack_option.get() == 0 and algorithm_option.get() == 0:
+        knapsack_weight = capacity.get()
+        knapsack_amount = number.get()
+        
+        items_data = []
+        for item in items:
+            name = item['name'].get()
+            profit = item['profit'].get()
+            weight = item['weight'].get()
+            items_data.append([name, profit, weight])
+        
+        # 기존 greedy.py 수정
+        try:
+            with open('greedy.py', 'r') as f:
+                lines = f.readlines()
+            
+            with open('greedy.py', 'w') as f:
+                for line in lines:
+                    if line.startswith('knapsack_weight'):
+                        f.write(f'knapsack_weight = {knapsack_weight}\n')
+                    elif line.startswith('knapsack_amount'):
+                        f.write(f'knapsack_amount = {knapsack_amount}\n')
+                    elif line.startswith('knapsack'):
+                        f.write(f'knapsack = {items_data}\n')
+                    else:
+                        f.write(line)
+        except FileNotFoundError:
+            print("greedy.py 파일이 존재하지 않습니다.")
+            return
+
+        # greedy.py 실행
+        try:
+            result = subprocess.run(['python3', 'greedy.py'], check=True, capture_output=True, text=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(e.stderr)
+
 
 def number_button_handler():
     for widget in item_frame.winfo_children():
@@ -100,32 +137,33 @@ def number_button_handler():
     global items
     items = []
     for i in range(number.get()):
+        item = {}
+
         # 물건 이름
         name_label = ttk.Label(item_frame, text=f'{i+1}. 이름')
         name_label.grid(row=i, column=0)
 
-        global name
-        name = tk.StringVar()
-        input_name = ttk.Entry(item_frame, textvariable=name, width=10)
+        item["name"] = tk.StringVar()
+        input_name = ttk.Entry(item_frame, textvariable=item["name"], width=10)
         input_name.grid(row=i, column=1)
 
         # 물건 값어치
         profit_label = ttk.Label(item_frame, text='값어치')
         profit_label.grid(row=i, column=2)
 
-        global profit
-        profit = tk.IntVar()
-        input_profit = ttk.Entry(item_frame, textvariable=profit, width=10)
+        item["profit"] = tk.IntVar()
+        input_profit = ttk.Entry(item_frame, textvariable=item["profit"], width=10)
         input_profit.grid(row=i, column=3)
 
         # 물건 무게
         weight_label = ttk.Label(item_frame, text='무게')
         weight_label.grid(row=i, column=4)
 
-        global weight
-        weight = tk.IntVar()
-        input_weight = ttk.Entry(item_frame, textvariable=weight, width=10)
+        item["weight"] = tk.IntVar()
+        input_weight = ttk.Entry(item_frame, textvariable=item["weight"], width=10)
         input_weight.grid(row=i, column=5)
+
+        items.append(item)
 
 # main program
 win = tk.Tk()
