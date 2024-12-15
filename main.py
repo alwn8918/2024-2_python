@@ -91,18 +91,18 @@ def algorithm_button_handler():
     pass
 
 def complete_button_handler():
+    knapsack_weight = capacity.get()
+    knapsack_amount = number.get()
+        
+    items_data = []
+    for item in items:
+        name = item['name'].get()
+        profit = item['profit'].get()
+        weight = item['weight'].get()
+        items_data.append([name, profit, weight])
+            
     # Fractional + Greedy
     if knapsack_option.get() == 0 and algorithm_option.get() == 0:
-        knapsack_weight = capacity.get()
-        knapsack_amount = number.get()
-        
-        items_data = []
-        for item in items:
-            name = item['name'].get()
-            profit = item['profit'].get()
-            weight = item['weight'].get()
-            items_data.append([name, profit, weight])
-        
         # 기존 greedy.py 수정
         try:
             with open('greedy.py', 'r') as f:
@@ -125,6 +125,34 @@ def complete_button_handler():
         # greedy.py 실행
         try:
             result = subprocess.run(['python3', 'greedy.py'], check=True, capture_output=True, text=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(e.stderr)
+
+    # 0-1 + dynamic programming
+    if knapsack_option.get() == 1 and algorithm_option.get() == 1:
+        # 기존 dynamic_programming.py 수정
+        try:
+            with open('dynamic_programming.py', 'r') as f:
+                lines = f.readlines()
+            
+            with open('dynamic_programming.py', 'w') as f:
+                for line in lines:
+                    if line.startswith('knapsack_weight'):
+                        f.write(f'knapsack_weight = {knapsack_weight}\n')
+                    elif line.startswith('knapsack_amount'):
+                        f.write(f'knapsack_amount = {knapsack_amount}\n')
+                    elif line.startswith('knapsack'):
+                        f.write(f'knapsack = {items_data}\n')
+                    else:
+                        f.write(line)
+        except FileNotFoundError:
+            print("dynamic_programming.py 파일이 존재하지 않습니다.")
+            return
+
+        # dynamic_programming.py 실행
+        try:
+            result = subprocess.run(['python3', 'dynamic_programming.py'], check=True, capture_output=True, text=True)
             print(result.stdout)
         except subprocess.CalledProcessError as e:
             print(e.stderr)

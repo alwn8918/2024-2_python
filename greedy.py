@@ -1,6 +1,6 @@
-knapsack_weight = 20
+knapsack_weight = 30
 knapsack_amount = 3
-knapsack = [['n1', 25, 15], ['n2', 24, 13], ['n3', 15, 5]]
+knapsack = [['n1', 50, 5], ['n2', 60, 10], ['n3', 140, 20]]
 
 # function
 def sort_knapsack(ks):
