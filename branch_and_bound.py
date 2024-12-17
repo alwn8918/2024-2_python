@@ -10,12 +10,12 @@ class Node:
         self.bound = bound
         self.items = items
 
-def get_bound(profit, weight, level):
-    if weight >= knapsack_weight:
+def get_bound(node):
+    if node.weight >= knapsack_weight:
         return 0
     
-    bound = profit
-    index = level + 1
+    bound = node.profit
+    index = node.level + 1
     space = knapsack_weight
 
     while index < knapsack_amount:
@@ -31,5 +31,5 @@ def get_bound(profit, weight, level):
     return bound
 
 
-
-print(get_bound(0, 0, -1))
+root = Node(profit=0, weight=0, level=-1, bound=0, items=[])
+print(get_bound(root))
