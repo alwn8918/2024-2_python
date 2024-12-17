@@ -170,7 +170,7 @@ def complete_button_handler():
                         f.write(f'knapsack_weight = {knapsack_weight}\n')
                     elif line.startswith('knapsack_amount'):
                         f.write(f'knapsack_amount = {knapsack_amount}\n')
-                    elif line.startswith('knapsack'):
+                    elif line.startswith('knapsack = '):
                         f.write(f'knapsack = {items_data}\n')
                     else:
                         f.write(line)

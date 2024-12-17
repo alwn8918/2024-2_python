@@ -1,8 +1,8 @@
-knapsack_weight = 16
+knapsack_weight = 13
 knapsack_amount = 4
-knapsack = [['n1', 40, 2], ['n2', 30, 5], ['n3', 50, 10], ['n4', 10, 5]]
+knapsack = [['1', 5, 5], ['2', 4, 6], ['3', 7, 8], ['4', 7, 4]]
 
-knapsack = [['n1', 40, 2], ['n2', 30, 5], ['n3', 50, 10], ['n4', 10, 5]]
+knapsack.sort(key=lambda x: x[1] / x[2], reverse=True)
 
 class Node:
     def __init__(self, profit, weight, level, bound, items):
