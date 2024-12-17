@@ -1,6 +1,6 @@
-knapsack_weight = 30
-knapsack_amount = 3
-knapsack = [['n1', 50, 5], ['n2', 60, 10], ['n3', 140, 20]]
+knapsack_weight = 13
+knapsack_amount = 4
+knapsack = [['n1', 40, 2], ['n2', 30, 5], ['n3', 50, 10], ['n4', 10, 5]]
 solution_vector = []
 
 # function
@@ -37,4 +37,4 @@ P = [[0 for _ in range(knapsack_weight + 1)] for _ in range(knapsack_amount + 1)
 
 put_dp_table()
 get_solution_vector()
-print_result()
+pr
