@@ -183,48 +183,4 @@ def complete_button_handler():
             result = subprocess.run(['python3', 'branch_and_bound.py'], check=True, capture_output=True, text=True)
             print(result.stdout)
         except subprocess.CalledProcessError as e:
-            print(e.stderr)
-
-
-def number_button_handler():
-    for widget in item_frame.winfo_children():
-        widget.destroy()
-
-    global items
-    items = []
-    for i in range(number.get()):
-        item = {}
-
-        # 물건 이름
-        name_label = ttk.Label(item_frame, text=f'{i+1}. 이름')
-        name_label.grid(row=i, column=0)
-
-        item["name"] = tk.StringVar()
-        input_name = ttk.Entry(item_frame, textvariable=item["name"], width=10)
-        input_name.grid(row=i, column=1)
-
-        # 물건 값어치
-        profit_label = ttk.Label(item_frame, text='값어치')
-        profit_label.grid(row=i, column=2)
-
-        item["profit"] = tk.IntVar()
-        input_profit = ttk.Entry(item_frame, textvariable=item["profit"], width=10)
-        input_profit.grid(row=i, column=3)
-
-        # 물건 무게
-        weight_label = ttk.Label(item_frame, text='무게')
-        weight_label.grid(row=i, column=4)
-
-        item["weight"] = tk.IntVar()
-        input_weight = ttk.Entry(item_frame, textvariable=item["weight"], width=10)
-        input_weight.grid(row=i, column=5)
-
-        items.append(item)
-
-# main program
-win = tk.Tk()
-win.title('Knapsack Program')
-win.geometry('500x400')
-buildGUI()
-
-win.mainloop()
+            print(e.st
