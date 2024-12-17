@@ -157,6 +157,34 @@ def complete_button_handler():
         except subprocess.CalledProcessError as e:
             print(e.stderr)
 
+        # 0-1 + branch and bound
+    if knapsack_option.get() == 1 and algorithm_option.get() == 2:
+        # 기존 branch_and_bound.py 수정
+        try:
+            with open('branch_and_bound.py', 'r') as f:
+                lines = f.readlines()
+            
+            with open('branch_and_bound.py', 'w') as f:
+                for line in lines:
+                    if line.startswith('knapsack_weight'):
+                        f.write(f'knapsack_weight = {knapsack_weight}\n')
+                    elif line.startswith('knapsack_amount'):
+                        f.write(f'knapsack_amount = {knapsack_amount}\n')
+                    elif line.startswith('knapsack'):
+                        f.write(f'knapsack = {items_data}\n')
+                    else:
+                        f.write(line)
+        except FileNotFoundError:
+            print("branch_and_bound.py 파일이 존재하지 않습니다.")
+            return
+
+        # branch_and_bound.py 실행
+        try:
+            result = subprocess.run(['python3', 'branch_and_bound.py'], check=True, capture_output=True, text=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(e.stderr)
+
 
 def number_button_handler():
     for widget in item_frame.winfo_children():

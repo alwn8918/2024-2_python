@@ -37,4 +37,4 @@ P = [[0 for _ in range(knapsack_weight + 1)] for _ in range(knapsack_amount + 1)
 
 put_dp_table()
 get_solution_vector()
-pr
+print_result()
